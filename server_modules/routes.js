@@ -71,7 +71,7 @@ module.exports = (app, UserModel) => {
 						}
 						renderPug(res, {
 							page: "register",
-							errorDom: "server error, please try again",
+							errorDom: "server error, please try again.",
 							prevValues: JSON.stringify({ username }),
 						});
 						return;
