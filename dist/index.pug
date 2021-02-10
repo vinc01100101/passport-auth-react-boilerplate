@@ -1,0 +1,21 @@
+doctype html
+head
+	title Simple Chat App!
+	meta(charset='UTF-8')
+	link(rel="stylesheet", href="./style.css", type='text/css')
+	meta(name="viewport", content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no")
+	meta(name='description', content='A simple chat application.')
+	link(rel='shortcut icon', href='./favicon.ico', type='image/x-icon')
+
+#root
+#variables
+	#page #{page}
+	#errorDom #{errorDom}
+	#prevValues #{prevValues}
+//- script(type='text/javascript').
+//- 	var page = document.querySelector('#page').textContent;
+//- 	var s = document.createElement('script')
+//- 			s.src = `./js/${page}.js`
+//- 			document.body.appendChild(s)
+script(type='text/javascript' src='./js/dynamicImport.js')
+
