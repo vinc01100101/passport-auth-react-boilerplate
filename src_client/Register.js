@@ -14,6 +14,12 @@ class Register extends React.Component {
 			confirmPassword: "",
 		};
 		this._handleOnChange = this._handleOnChange.bind(this);
+		this._handleOnSubmit = (e) => {
+			if (this.state.password != this.state.confirmPassword) {
+				e.preventDefault();
+				alert("Passwords do not match");
+			}
+		};
 	}
 
 	_handleOnChange(e) {
@@ -58,7 +64,7 @@ class Register extends React.Component {
 						value={this.state.confirmPassword}
 					/>
 					<br />
-					<button type="submit">Submit</button>
+					<button onClick={this._handleOnSubmit}>Submit</button>
 				</form>
 				<a href="/">
 					<button>Back</button>
