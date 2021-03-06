@@ -18,11 +18,14 @@ module.exports = (app, UserModel) => {
 	};
 
 	app.get("/", checkIfNotAuthenticated, (req, res) => {
-		renderPug(res, { page: "home", errorDom: req.flash("error") });
+		renderPug(res, { page: "Home", errorDom: req.flash("error") });
+	});
+	app.get("/register", checkIfNotAuthenticated, (req, res) => {
+		renderPug(res, { page: "Register", errorDom: req.flash("error") });
 	});
 	//profile page needs to check if user is authenticated
 	app.get("/profile", checkIfAuthenticated, (req, res) => {
-		renderPug(res, { page: "profile" });
+		renderPug(res, { page: "Profile" });
 	});
 
 	app.get("/logout", (req, res) => {
@@ -54,11 +57,12 @@ module.exports = (app, UserModel) => {
 					if (err) return next(err);
 					if (doc) {
 						console.log(
-							"registration failed: username already exists: " + username
+							"registration failed: username already exists: " +
+								username
 						);
 
 						renderPug(res, {
-							page: "register",
+							page: "Register",
 							errorDom: "username already exists",
 							prevValues: JSON.stringify({ username }),
 						});
@@ -71,7 +75,9 @@ module.exports = (app, UserModel) => {
 					});
 					newDoc.save((err, usr) => {
 						if (err) {
-							console.log("Error upon creation of the new user doc");
+							console.log(
+								"Error upon creation of the new user doc"
+							);
 							return next(err);
 						}
 						next(null, usr);
@@ -80,17 +86,14 @@ module.exports = (app, UserModel) => {
 			}
 		},
 		passport.authenticate("local", {
-			failureRedirect: "/register",
 			successRedirect: "/profile",
+			failureRedirect: "/register",
 			failureFlash: true,
 		})
 	);
-	app.get("/:page", checkIfNotAuthenticated, (req, res) => {
-		const page = req.params.page.toLowerCase();
 
-		const autoPages = ["home", "register"];
-		autoPages.indexOf(page) !== -1
-			? renderPug(res, { page, errorDom: req.flash("error") })
-			: res.send("Error 404: Page not found");
+	//for invalid page/route
+	app.use((req, res) => {
+		res.status(404).end();
 	});
 };

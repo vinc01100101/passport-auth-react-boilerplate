@@ -1,14 +1,15 @@
 const path = require("path");
-
+const nodeEnv = process.env.NODE_ENV.trim();
+console.log(nodeEnv);
 module.exports = {
-    mode: "development",
+    mode: nodeEnv,
     entry: {
-        home: ["./src_client/Home.js"],
-        register: ["./src_client/Register.js"],
-        profile: ["./src_client/Profile.js"],
+        Home: ["./src_client/Home.js"],
+        Register: ["./src_client/Register.js"],
+        Profile: ["./src_client/Profile.js"],
     },
     output: {
-        path: path.join(__dirname, "dist"),
+        path: path.join(__dirname, "dist/js"),
         publicPath: "/js/",
         filename: `[name].js`,
     },
@@ -28,8 +29,9 @@ module.exports = {
             },
         ],
     },
-    resolve: {
-        alias: {},
-    },
     plugins: [],
+    optimization: {
+        runtimeChunk: "single",
+        minimize: nodeEnv == "production",
+    },
 };

@@ -7,12 +7,12 @@ const routes = require("./server_modules/routes"),
   auth = require("./server_modules/auth"),
   logger = require("./server_modules/logger");
 
-require("dotenv").config();
+//get the env mode set in package.json script, trip spaces
+const nodeEnv = process.env.NODE_ENV.trim();
+if (nodeEnv !== "production") {
+  require("dotenv").config();
+  console.log("development mode");
 
-const port = process.env.PORT || 8080;
-const devRecompileEnabled = true;
-
-if (devRecompileEnabled) {
   const webpack = require("webpack");
   const webpackDevMiddleware = require("webpack-dev-middleware");
   const config = require("./webpack.config.js");
@@ -68,6 +68,7 @@ mongoose.connect(
   }
 );
 
+const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log("Server started on port: " + port);
 });
